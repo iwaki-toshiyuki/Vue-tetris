@@ -10,7 +10,9 @@ import { reactive, onBeforeUnmount, watch } from "vue";
     PLAYING: 2, // プレイ中
     GAMEOVER: 3, // ゲームオーバー
   } as const;
-  export type PLAY_STATUS = typeof PLAY_STATUS[keyof typeof PLAY_STATUS];
+  type PLAY_STATUS = typeof PLAY_STATUS[keyof typeof PLAY_STATUS];
+
+
 
   let staticField = new Field();
 
