@@ -12,16 +12,21 @@
   const tetromino = reactive({
     current: Tetromino.random(),
     position: { x: 3, y: 0 },
+    rotate: 0,
     next: Tetromino.random(),
   });
-const classBlockColor = (_x: number, _y: number): string => {
-  const type = tetris.field.data[_y][_x];
-  if (type > 0) {
-    return Tetromino.id(type as TETROMINO_TYPE);
+
+  const currentTetrominoData = () => {
+    return Tetromino.rotate(tetromino.rotate, tetromino.current.data);
   }
+  const classBlockColor = (_x: number, _y: number): string => {
+    const type = tetris.field.data[_y][_x];
+    if (type > 0) {
+      return Tetromino.id(type as TETROMINO_TYPE);
+    }
 
   const { x, y } = tetromino.position;
-  const { data } = tetromino.current;
+  const data = currentTetrominoData();
 
   if (y <= _y && _y < y + data.length) {
     const cols = data[_y - y];
@@ -38,12 +43,12 @@ const canDropCurrentTetromino = (): boolean => {
   const { x, y } = tetromino.position;
   const droppedPosition = { x, y: y + 1 };
 
-  const data = tetromino.current.data;
+  const data = currentTetrominoData();
   return tetris.field.canMove(data, droppedPosition);
 }
 
 const nextTetrisField = () => {
-  const data = tetromino.current.data;
+  const data = currentTetrominoData();
   const position = tetromino.position;
 
   tetris.field.update(data, position);
@@ -53,11 +58,20 @@ const nextTetrisField = () => {
 
   tetromino.current = tetromino.next;
   tetromino.next = Tetromino.random();
+  tetromino.rotate = 0;
   tetromino.position = { x: 3, y: 0 };
 }
 
 const onKeyDown = (e: KeyboardEvent) => {
   switch (e.key) {
+    case " ": {
+      const nextRotate = (tetromino.rotate + 1) % 4;
+      const data = Tetromino.rotate(nextRotate, tetromino.current.data);
+      if (tetris.field.canMove(data, tetromino.position)) {
+        tetromino.rotate = nextRotate;
+      }
+    }
+      break;
     case "Down":
     case "ArrowDown":
       if (canDropCurrentTetromino()) {
@@ -77,7 +91,7 @@ const onKeyDown = (e: KeyboardEvent) => {
         break;
         case "Left":
         case "ArrowLeft": {
-          const data = tetromino.current.data;
+          const data = currentTetrominoData();
           const { x, y } = tetromino.position;
           const leftPosition = { x: x - 1, y };
           if (tetris.field.canMove(data, leftPosition)) {
@@ -87,7 +101,7 @@ const onKeyDown = (e: KeyboardEvent) => {
           break;
         case "Right":
         case "ArrowRight": {
-          const data = tetromino.current.data;
+          const data = currentTetrominoData();
           const { x, y } = tetromino.position;
           const rightPosition = { x: x + 1, y };
           if (tetris.field.canMove(data, rightPosition)) {
