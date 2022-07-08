@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
+import { reactive, onBeforeUnmount, watch } from "vue";
   import { Tetromino, TETROMINO_TYPE } from '../common/Tetromino';
   import { Field } from '../common/Field';
 
