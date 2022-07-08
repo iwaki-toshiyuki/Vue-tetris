@@ -2,6 +2,9 @@
   "name": "vue-tetris",
   "private": true,
   "version": "0.0.0",
+  "engines": {
+    "node": "16.13.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
