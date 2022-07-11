@@ -5,6 +5,7 @@ import { RouteRecordRaw, createWebHistory, createRouter } from "vue-router";
 
 import TopPage from "./pages/TopPage.vue";
 import PlayPage from "./pages/PlayPage.vue";
+import ExplanationPage from "./pages/ExplanationPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,6 +18,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "PlayPage",
     component: PlayPage
   },
+  {
+    path: "/explanation",
+    name: "ExplanationPage",
+    component: ExplanationPage
+  }
 ];
 
 const router = createRouter({

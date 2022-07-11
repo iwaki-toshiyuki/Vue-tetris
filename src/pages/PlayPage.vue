@@ -5,6 +5,14 @@ import { reactive, onBeforeUnmount, watch } from "vue";
 
   import TetrominoPreviewComponent from '../components/TetrominoPreviewComponent.vue';
 
+  import { useRouter } from "vue-router";
+  const state = reactive({ name: "" });
+  const router = useRouter();
+
+  const tutorialGame = () => {
+    router.push({ name: "ExplanationPage", query: { name: state.name } });
+  }
+
   const PLAY_STATUS = {
     GAMESTART: 1, // ゲームスタート
     PLAYING: 2, // プレイ中
@@ -217,6 +225,9 @@ const resetDrop = resetDropInterval();
       <ul class="data">
         <li>スコア: {{ tetris.score }}</li>
         <li><button v-if="isStandby()" @click.self.stop="gameStart">ゲームスタート</button></li>
+        <button v-on:click="tutorialGame()">
+          操作説明
+        </button>
       </ul>
     </div>
   </div>
