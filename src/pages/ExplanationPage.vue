@@ -4,8 +4,8 @@
 
   const state = reactive({ name: "" });
   const router = useRouter();
-  const titleGame = () => {
-    router.push({ name: "TopPage", query: { name: state.name } });
+  const playGame = () => {
+    router.push({ name: "PlayPage", query: { name: state.name } });
   }
 </script>
 
@@ -15,7 +15,7 @@
   <h3>上矢印で即時落下させる</h3>
   <h3>左右矢印で横移動する</h3>
   <h3>スペースキーで回転する</h3>
-  <button v-on:click=" titleGame()">
+  <button v-on:click="playGame()">
     プレイ画面に戻る
   </button>
 </template>
